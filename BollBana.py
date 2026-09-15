@@ -163,30 +163,6 @@ def bestam_cd():
     return (a + b) / 2
 
 
-def sok_sidspinn():
-    P0 = np.array([0, 0, 0])
-    V0 = np.array([35.4, -14.9, 4.13])
-    basta_omega_z = 0
-    basta_fel = 1000
-
-    for omega_z in np.linspace(0, 80, 401):
-        omega_varde = np.array([0.0, -8.9, omega_z])
-        t, bana = simulera(P0, V0, 0.14, 0.16, omega_varde, 1500, 5)
-        y_mal, z_mal = y_och_z_vid_x(bana, 35.3)
-
-        if -3.66 <= y_mal <= 3.66 and 0 <= z_mal <= 2.44:
-            return omega_varde, bana
-
-        fel = abs(y_mal) + abs(z_mal - 1.2)
-        if fel < basta_fel:
-            basta_fel = fel
-            basta_omega_z = omega_z
-
-    omega_varde = np.array([0.0, -8.9, basta_omega_z])
-    t, bana = simulera(P0, V0, 0.14, 0.16, omega_varde, 1500, 5)
-    return omega_varde, bana
-
-
 def uppgift_3_2():
     vx0 = 17.3
     vz0 = 11.5
@@ -242,7 +218,10 @@ def uppgift_3_5():
 
 
 def uppgift_3_6_och_3_7():
-    omega_varde, bana = sok_sidspinn()
+    P0 = np.array([0, 0, 0])
+    V0 = np.array([35.4, -14.9, 4.13])
+    omega_varde = np.array([0.0, -8.9, 23.6])
+    t, bana = simulera(P0, V0, 0.14, 0.16, omega_varde, 1500, 5)
     plotta_bana(bana, "uppgift_3_6_skruv.png", "Bollbana med Magnuskraft", True)
     plotta_bana_3d_med_mal(bana, "uppgift_3_6_skruv_3d.png", "Bollbana med Magnuskraft")
     y_mal, z_mal = y_och_z_vid_x(bana, 35.3)
